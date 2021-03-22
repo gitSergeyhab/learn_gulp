@@ -1,0 +1,13 @@
+.footer {
+    background-color: orangered;
+    &-menu {
+        transform: scale(.5);
+        background-color: blue;
+        display: flex;
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        &__item {
+            background-color: yellowgreen;
+            color: black;
+        }
+    }
+}

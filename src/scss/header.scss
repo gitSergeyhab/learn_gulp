@@ -1,0 +1,12 @@
+.header {
+    background-color: royalblue;
+    &-menu {
+        background-color: green;
+        display: grid;
+        grid-template-columns: 1fr auto auto;
+        &__item {
+            background-color: black;
+            color: goldenrod;
+        }
+    }
+}
