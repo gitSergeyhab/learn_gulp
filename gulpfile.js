@@ -10,8 +10,8 @@ const fileInclude = require('gulp-file-include')
 
 
 const htmles = () => {
-    // src('./src/index.html')
-    return src(['./src/index.html'])
+    return src('./src/index.html')
+    // return src(['./src/index.html'])
      .pipe(fileInclude({
          prefix: '@',
          baseDir: '@file'
@@ -30,8 +30,14 @@ const styles = () => {
         // .pipe(rename({ suffix: '.min' }))
         .pipe(sourcemaps.write('.'))
         .pipe(dest('./dist/css/'))
-        .pipe(browserSync.stream())
-        
+        .pipe(browserSync.stream()) 
+}
+
+const images0 = () => {
+    // return src(['./src/img/**/*.png', './src/img/**/*.jpg', './src/img/**/*.jpeg', './src/img/**/*.gif'])
+    return src('./src/img/**/*.{png,jpg,jpeg,gif}')
+
+        .pipe(dest('./dist/img'))
 }
 
 const watcher = () => {
@@ -41,12 +47,19 @@ const watcher = () => {
         }
     });
 
-    watch('./src/scss/**/*.scss', styles);
+    
     watch('./src/index.html', htmles);
+    watch('./src/scss/**/*.scss', styles);
+    watch('./src/img/**/*.{png,jpg,jpeg,gif}', images0);
+    // watch('.src/img/**/*.png', images0);
+    // watch('.src/img/**/*.jpg', images0);
+    // watch('.src/img/**/*.jpeg', images0);
+    // watch('.src/img/**/*.gif', images0);
 }
 
 exports.htmles = htmles;
 exports.styles = styles;
+exports.images0 = images0;
 exports.watcher = watcher;
 
-exports.default = series(htmles, styles, watcher);
+exports.default = series(htmles, styles, images0, watcher);

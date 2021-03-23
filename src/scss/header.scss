@@ -2,8 +2,10 @@
     background-color: royalblue;
     &-menu {
         background-color: green;
-        display: grid;
-        grid-template-columns: 1fr auto auto;
+        &__list {
+            display: flex;
+            justify-content: space-between;
+        }
         &__item {
             background-color: black;
             color: goldenrod;
