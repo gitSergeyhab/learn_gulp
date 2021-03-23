@@ -8,8 +8,13 @@ const autoprefixer = require('gulp-autoprefixer');
 const rename = require('gulp-rename');
 const fileInclude = require('gulp-file-include');
 const svgSprite = require('gulp-svg-sprite')
+const del = require('del')
 
 
+
+const clean = () => {
+    return del('dist/*');
+}
 
 const htmles = () => {
     return src('./src/index.html')
@@ -73,4 +78,4 @@ exports.styles = styles;
 // exports.svgSprites = svgSprites;
 exports.watcher = watcher;
 
-exports.default = series(htmles, styles, images0, svgSprites, watcher);
+exports.default = series(clean, htmles, styles, images0, svgSprites, watcher);
