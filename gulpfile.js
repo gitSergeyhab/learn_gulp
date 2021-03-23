@@ -1,11 +1,13 @@
 const {src, dest, parallel, series, watch} = require('gulp');
+const browserSync = require('browser-sync');
+
 const sass = require('gulp-sass');
 const concat = require('gulp-concat');
 const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
 const rename = require('gulp-rename');
-const browserSync = require('browser-sync');
-const fileInclude = require('gulp-file-include')
+const fileInclude = require('gulp-file-include');
+const svgSprite = require('gulp-svg-sprite')
 
 
 
@@ -33,10 +35,21 @@ const styles = () => {
         .pipe(browserSync.stream()) 
 }
 
-const images0 = () => {
-    // return src(['./src/img/**/*.png', './src/img/**/*.jpg', './src/img/**/*.jpeg', './src/img/**/*.gif'])
-    return src('./src/img/**/*.{png,jpg,jpeg,gif}')
 
+const svgSprites = () => {
+    return src('./src/img/sprite-svg/**.svg')
+        .pipe(svgSprite({
+            mode: {
+                stack: {
+                    sprite: '../sprite.svg'
+                }
+            }
+        }))
+        .pipe(dest('./dist/img'))
+}
+
+const images0 = () => {
+    return src('./src/img/**/*.{png,jpg,jpeg,gif}')
         .pipe(dest('./dist/img'))
 }
 
@@ -51,15 +64,13 @@ const watcher = () => {
     watch('./src/index.html', htmles);
     watch('./src/scss/**/*.scss', styles);
     watch('./src/img/**/*.{png,jpg,jpeg,gif}', images0);
-    // watch('.src/img/**/*.png', images0);
-    // watch('.src/img/**/*.jpg', images0);
-    // watch('.src/img/**/*.jpeg', images0);
-    // watch('.src/img/**/*.gif', images0);
+    watch('./src/img/sprite-svg/**.svg', svgSprites);
 }
 
 exports.htmles = htmles;
 exports.styles = styles;
-exports.images0 = images0;
+// exports.images0 = images0;
+// exports.svgSprites = svgSprites;
 exports.watcher = watcher;
 
-exports.default = series(htmles, styles, images0, watcher);
+exports.default = series(htmles, styles, images0, svgSprites, watcher);
